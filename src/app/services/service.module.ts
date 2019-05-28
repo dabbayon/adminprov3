@@ -4,18 +4,26 @@ import { CommonModule } from '@angular/common';
 import {
   SettingsService,
   SidebarService,
-  SharedService
+  SharedService,
+  UsuarioService,
+  LoginGuardGuard
  } from './service.index';
+import {  HttpClientModule } from '@angular/common/http';
+import { AutenticationService } from './autentication/autentication.service';
 
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
   providers: [
     SettingsService,
     SidebarService,
-    SharedService
+    SharedService,
+    UsuarioService,
+    AutenticationService,
+    LoginGuardGuard
   ],
   declarations: []
 })
