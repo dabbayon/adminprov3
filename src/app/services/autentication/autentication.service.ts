@@ -25,7 +25,7 @@ export class AutenticationService {
   cargarStorage() {
     if ( localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
-      this.usuario = JSON.parse( localStorage.getItem('usuario'));
+      this.usuario =  (localStorage.getItem('usuario') !== "undefined") ? JSON.parse( localStorage.getItem('usuario')) : '';
     } else {
       this.token = '';
       this.usuario = null;
@@ -58,10 +58,10 @@ export class AutenticationService {
                 }));
   }
   setUser(user: any) {
-    localStorage.setItem('usuario', JSON.stringify( user )  );
+    localStorage.setItem('usuario', JSON.stringify( user.usuario )  );
     localStorage.setItem('id', user.id  );
     localStorage.setItem('token', user.token );
-    this.usuario = user;
+    this.usuario = (user.usuario) ? user.usuario : user;
     this.token = user.token;
   }
 
