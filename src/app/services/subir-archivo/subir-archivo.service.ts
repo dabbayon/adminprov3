@@ -10,8 +10,8 @@ export class SubirArchivoService {
 
   subirArchivo( archivo: File, tipo: string, id: string ) {
         return new Promise( (resolve, reject ) => {
-          let formData = new FormData();
-          let xhr = new XMLHttpRequest();
+          const formData = new FormData();
+          const xhr = new XMLHttpRequest();
           formData.append( 'imagen', archivo, archivo.name );
           xhr.onreadystatechange = function() {
             if ( xhr.readyState === 4 ) {
@@ -24,7 +24,7 @@ export class SubirArchivoService {
                 }
             }
           };
-          let url = URL_SERVICIO + 'upload/' + tipo + '/' + id;
+          const url = URL_SERVICIO + 'upload/' + tipo + '/' + id;
           xhr.open('PUT', url, true );
           xhr.send( formData );
         });

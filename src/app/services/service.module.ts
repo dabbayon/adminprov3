@@ -10,6 +10,8 @@ import {
  } from './service.index';
 import {  HttpClientModule } from '@angular/common/http';
 import { AutenticationService } from './autentication/autentication.service';
+import { SubirArchivoService } from './subir-archivo/subir-archivo.service';
+import { ModalUploadService } from '../components/modal-upload/modal-upload.service';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { AutenticationService } from './autentication/autentication.service';
     SharedService,
     UsuarioService,
     AutenticationService,
-    LoginGuardGuard
+    LoginGuardGuard,
+    SubirArchivoService,
+    ModalUploadService
   ],
   declarations: []
 })

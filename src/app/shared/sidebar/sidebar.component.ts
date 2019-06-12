@@ -10,7 +10,7 @@ import { Usuario } from 'src/app/models/usuario.model';
   styles: []
 })
 export class SidebarComponent implements OnInit {
-  usuario:Usuario;
+  usuario: Usuario;
   constructor(
       public _sidebar: SidebarService,
       public _autenticationService: AutenticationService
