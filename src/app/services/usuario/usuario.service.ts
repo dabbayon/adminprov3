@@ -2,8 +2,12 @@ import { Injectable, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIO } from '../../config/config';
-//import { map } from 'rxjs/operators';
-import { map } from 'rxjs/operators';
+
+import { Observable } from 'rxjs/Observable';
+//import { Observable } from 'rxjs';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 import swal from 'sweetalert';
 import { pipe } from '@angular/core/src/render3/pipe';
@@ -28,22 +32,30 @@ export class UsuarioService {
   crearUsuario( usuario: Usuario ) {
     let url = URL_SERVICIO + 'usuario';
     return this.http.post( url , usuario )
-            .pipe(map((resp: any) => {
+            .map((resp: any) => {
                   swal('Usuario Creado', resp.usuario.email, 'success' );
                   return resp.usuario;
-            }));
+            })
+            .catch( err => {
+                swal(err.error.mensaje, err.error.errors.message, 'error');
+                return Observable.throw( err) ;
+            });
   }
 
   actualizarUsuario(usuario: Usuario) {
       let url = URL_SERVICIO + 'usuario/' + usuario._id + '?token=' + localStorage.getItem('token');
       return this.http.put( url, usuario)
-          .pipe(map( (resp: any) => {
+          .map( (resp: any) => {
                   if ( usuario._id === this._autenticationservie.usuario._id ) {
-                    this._autenticationservie.setUser( resp.usuario);
+                    this._autenticationservie.setUser( resp.usuario, JSON.parse( localStorage.getItem('menu')));
                   }
                   swal('Usuario actualizado ' , resp.usuario.nombre, 'success');
                   return true;
-          }));
+          })
+          .catch( err => {
+            swal(err.error.mensaje, err.error.errors.message, 'error');
+            return Observable.throw( err) ;
+        });
   }
 
   cambiarImagen( file: File, id: string ) {
@@ -54,7 +66,7 @@ export class UsuarioService {
             this.usuairio = this._autenticationservie.usuario;
             this.usuairio.img = resp.usuario.img;
             swal('Imagen actualizada', this.usuairio.nombre, 'success');
-            this._autenticationservie.setUser(this.usuairio);
+            this._autenticationservie.setUser(this.usuairio, JSON.parse( localStorage.getItem('menu')));
         })
         .catch( error => {
             console.log( error);
@@ -74,11 +86,15 @@ export class UsuarioService {
   borrarUsuario( id: string ) {
     let url = URL_SERVICIO + 'usuario/' + id + '?token=' + this._autenticationservie.token;
     return this.http.delete( url )
-          .pipe(map( resp => {
+          .map( resp => {
               swal("Se eliminó correctamente!" , {
                 icon: "success",
               });
               return true;
-          } ));
+          })
+          .catch( err => {
+            swal(err.error.mensaje, err.error.errors.message, 'error');
+            return Observable.throw( err) ;
+        });
   }
 }

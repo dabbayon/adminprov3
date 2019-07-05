@@ -71,7 +71,7 @@ export class MedicoComponent implements OnInit {
     this._medicosService.cargarMedico( id)
     .subscribe( (medico: any) => {
         this.medico = medico;
-        this.medico.hospital = medico.hospital._id;
+        this.medico.hospital = (medico.hospital) ? medico.hospital._id : '';
         this.cambioHospital( this.medico.hospital);
     });
   }

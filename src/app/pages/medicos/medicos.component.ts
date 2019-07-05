@@ -11,7 +11,8 @@ import swal from 'sweetalert';
 })
 export class MedicosComponent implements OnInit {
   Medicos: Medicos [] =  [];
-  constructor(public _medicosService: MedicosService) { }
+  constructor(
+    public _medicosService: MedicosService) { }
 
   ngOnInit() {
     this.cargarMedicos( '0' );
